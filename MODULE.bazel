@@ -43,6 +43,8 @@ twirl_version = "2.0.7"
 # flavor resolves its own artifacts. Play 2.7 ships twirl-api 1.4.2, but 1.4.2's compiler
 # calls a `scala.tools.nsc.Settings` method that no longer exists in Scala 2.13.9+, so 1.5.2
 # is the oldest compiler that runs on `scala_2_13_version`.
+play_2_7_twirl_api_version = "1.4.2"
+
 play_2_7_twirl_compiler_version = "1.5.2"
 
 protobuf_version = "4.28.3"
@@ -160,6 +162,22 @@ twirl_test_2_13.install(
     repositories = ["https://repo.maven.apache.org/maven2"],
 )
 use_repo(twirl_test_2_13, "twirl_test_2_13")
+
+twirl_test_2_13_play_2_7 = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+twirl_test_2_13_play_2_7.install(
+    name = "twirl_test_2_13_play_2_7",
+    artifacts = [
+        "com.typesafe.play:twirl-api_2.13:{}".format(play_2_7_twirl_api_version),
+        "org.specs2:specs2-common_2.13:{}".format(specs2_version),
+        "org.specs2:specs2-core_2.13:{}".format(specs2_version),
+        "org.specs2:specs2-matcher_2.13:{}".format(specs2_version),
+    ],
+    fail_if_repin_required = True,
+    fetch_sources = True,
+    lock_file = "@rules_twirl//:twirl_test_2_13_play_2_7_install.json",
+    repositories = ["https://repo.maven.apache.org/maven2"],
+)
+use_repo(twirl_test_2_13_play_2_7, "twirl_test_2_13_play_2_7")
 
 twirl_test_3 = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 twirl_test_3.install(

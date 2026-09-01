@@ -1,6 +1,8 @@
-load(":twirl-compiler-test.bzl", "generate_twirl_test_targets")
+load(":twirl-compiler-test.bzl", "generate_play_2_7_twirl_test_targets", "generate_twirl_test_targets")
 
 # Check twirlroutes-compiler-test.bzl for the actual test definitions
 generate_twirl_test_targets(scala_version = "3")
 
 generate_twirl_test_targets(scala_version = "2.13")
+
+generate_play_2_7_twirl_test_targets()

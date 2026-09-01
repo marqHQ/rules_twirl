@@ -8,3 +8,4 @@ bazel run @twirl_compiler_cli_2_13//:pin
 bazel run @twirl_compiler_cli_2_13_play_2_7//:pin
 bazel run @twirl_test_3//:pin
 bazel run @twirl_test_2_13//:pin
+bazel run @twirl_test_2_13_play_2_7//:pin
