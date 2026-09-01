@@ -19,6 +19,22 @@ create_twirl_toolchain(
     twirl_compiler = "//twirl-compiler-cli:twirl-compiler-cli-2-13",
 )
 
+# For Play 2.7 consumers to register ahead of twirl-2-13; it matches every 2.13 target.
+create_twirl_toolchain(
+    name = "twirl-2-13-play-2-7",
+    scala_version = scala_2_13_version,
+    twirl_compiler = "//twirl-compiler-cli:twirl-compiler-cli-2-13-play-2-7",
+)
+
+# Registered by this module so its tests can select the Play 2.7 compiler with
+# scala_version = "play-2-7_2.13" without shadowing twirl-2-13.
+create_twirl_toolchain(
+    name = "twirl-2-13-play-2-7-prefixed",
+    prefix = "play-2-7",
+    scala_version = scala_2_13_version,
+    twirl_compiler = "//twirl-compiler-cli:twirl-compiler-cli-2-13-play-2-7",
+)
+
 bzl_library(
     name = "bzl",
     srcs = glob(["*.bzl"]),

@@ -57,6 +57,10 @@ create_twirl_toolchain(
 )
 ```
 
+Projects still on Play 2.7 can register `@rules_twirl//twirl-toolchain:twirl-2-13-play-2-7` in
+their root `MODULE.bazel`. It runs the Play 2.7 era `com.typesafe.play` Twirl compiler against
+`twirl-api` 1.x and, registered by the root module, takes precedence over `twirl-2-13`.
+
 If you register more than one custom toolchain for the same `scala_version`, set the `prefix`
 attribute to disambiguate them, e.g., `prefix = "custom"` on the Twirl toolchain and
 `scala_version = "custom_3"` on the `twirl_templates` target.
