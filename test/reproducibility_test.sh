@@ -7,8 +7,12 @@ function clean_build_output_hash {
   bazel build test:twirl-test-templates-basic-3
   bazel build test:twirl-test-templates-additional-imports-3
   bazel build test:twirl-test-templates-custom-formatter-3
-  # Take the hash of all files in the directory; this needs to work in both Linux and OSX
-  for file in $(find bazel-bin/ -type f | sort); do shasum $file; done | shasum
+  bazel build test:twirl-test-templates-basic-2-13-play-2-7
+  bazel build test:twirl-test-templates-additional-imports-2-13-play-2-7
+  bazel build test:twirl-test-templates-custom-formatter-2-13-play-2-7
+  # The scala_version transition gives each version its own output directory, so the
+  # generated sources are collected from all of them; this needs to work in both Linux and OSX
+  for file in $(find bazel-out/*/bin/test/gen -type f | sort); do shasum $file; done | shasum
 }
 
 hash0=$(clean_build_output_hash)
