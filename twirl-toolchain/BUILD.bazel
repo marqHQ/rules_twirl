@@ -29,6 +29,11 @@ create_twirl_toolchain(
     twirl_compiler = "//twirl-compiler-cli:twirl-compiler-cli-2-13",
 )
 
+create_twirl_toolchain(
+    name = "twirl-2-13-play-2-7",
+    twirl_compiler = "//twirl-compiler-cli:twirl-compiler-cli-2-13-play-2-7",
+)
+
 bzl_library(
     name = "bzl",
     srcs = glob(["*.bzl"]),

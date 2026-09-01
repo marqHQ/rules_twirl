@@ -60,3 +60,40 @@ def generate_twirl_compiler_targets(scala_version):
         ],
         srcs = ["Foo.java"],
     )
+
+def generate_play_2_7_twirl_compiler_targets():
+    repository = "@twirl_compiler_cli_2_13_play_2_7"
+    scala_library_target = "{}//:org_scala_lang_scala_library".format(repository)
+
+    scala_library(
+        name = "twirl-compiler-lib-2-13-play-2-7",
+        srcs = native.glob(["*.scala"]),
+        scalacopts = ["-Xfatal-warnings"],
+        visibility = ["//visibility:public"],
+        deps_used_whitelist = [
+            scala_library_target,
+            "{}//:com_google_protobuf_protobuf_java".format(repository),
+        ],
+        deps = [
+            scala_library_target,
+            "{}//:com_github_scopt_scopt_2_13".format(repository),
+            "{}//:com_typesafe_play_twirl_compiler_2_13".format(repository),
+            "{}//:com_google_protobuf_protobuf_java".format(repository),
+            "@rules_scala_annex//src/main/scala/higherkindness/rules_scala/common/error",
+            "@rules_scala_annex//src/main/scala/higherkindness/rules_scala/common/interrupt",
+            "@rules_scala_annex//src/main/scala/higherkindness/rules_scala/common/sandbox",
+            "@rules_scala_annex//src/main/scala/higherkindness/rules_scala/common/worker",
+        ],
+        scala_toolchain_name = "zinc_2_13",
+    )
+
+    java_binary(
+        name = "twirl-compiler-cli-2-13-play-2-7",
+        main_class = "rulestwirl.twirl.CommandLineTwirlTemplateCompiler",
+        visibility = ["//visibility:public"],
+        runtime_deps = [
+            ":twirl-compiler-lib-2-13-play-2-7",
+            # The Play 2.7 era Twirl compiler needs scala-parser-combinators at runtime
+            "{}//:org_scala_lang_modules_scala_parser_combinators_2_13".format(repository),
+        ],
+    )

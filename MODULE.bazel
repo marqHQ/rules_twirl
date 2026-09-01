@@ -27,6 +27,7 @@ register_toolchains(
     "//scala:zinc_2_13",
     "//scala:zinc_3",
     "//twirl-toolchain:twirl-2-13",
+    "//twirl-toolchain:twirl-2-13-play-2-7",
     "//twirl-toolchain:twirl-3",
 )
 
@@ -38,7 +39,15 @@ scala_3_version = "3.5.1"
 
 twirl_version = "2.0.7"
 
+# Twirl moved from `com.typesafe.play` to `org.playframework.twirl` at 2.0, so the Play 2.7
+# flavor resolves its own artifacts. Play 2.7 ships twirl-api 1.4.2, but 1.4.2's compiler
+# calls a `scala.tools.nsc.Settings` method that no longer exists in Scala 2.13.9+, so 1.5.2
+# is the oldest compiler that runs on `scala_2_13_version`.
+play_2_7_twirl_compiler_version = "1.5.2"
+
 protobuf_version = "4.28.3"
+
+scala_parser_combinators_version = "1.1.2"
 
 scopt_version = "4.1.0"
 
@@ -75,6 +84,29 @@ twirl_compiler_cli_2_13.artifact(
     version = zinc_version,
 )
 use_repo(twirl_compiler_cli_2_13, "twirl_compiler_cli_2_13")
+
+twirl_compiler_cli_2_13_play_2_7 = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+twirl_compiler_cli_2_13_play_2_7.install(
+    name = "twirl_compiler_cli_2_13_play_2_7",
+    artifacts = [
+        "com.github.scopt:scopt_2.13:{}".format(scopt_version),
+        "com.google.protobuf:protobuf-java:{}".format(protobuf_version),
+        "com.typesafe.play:twirl-compiler_2.13:{}".format(play_2_7_twirl_compiler_version),
+        # scala-parser-combinators has to be on the CLI's runtime classpath for the Twirl
+        # compiler's template parser
+        "org.scala-lang.modules:scala-parser-combinators_2.13:{}".format(scala_parser_combinators_version),
+        # The Scala artifacts have to match the scala-library the zinc_2_13 toolchain puts
+        # first on the CLI's runtime classpath
+        "org.scala-lang:scala-compiler:{}".format(scala_2_13_version),
+        "org.scala-lang:scala-library:{}".format(scala_2_13_version),
+        "org.scala-lang:scala-reflect:{}".format(scala_2_13_version),
+    ],
+    fail_if_repin_required = True,
+    fetch_sources = True,
+    lock_file = "@rules_twirl//:twirl_compiler_cli_2_13_play_2_7_install.json",
+    repositories = ["https://repo.maven.apache.org/maven2"],
+)
+use_repo(twirl_compiler_cli_2_13_play_2_7, "twirl_compiler_cli_2_13_play_2_7")
 
 twirl_compiler_cli_3 = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 twirl_compiler_cli_3.install(

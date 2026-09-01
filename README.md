@@ -39,6 +39,8 @@ archive_override(
 
 By default, the Scala 3 version of the Twirl compiler will be used. To change the default to
 Scala 2.13, add the `--@rules_twirl//twirl-toolchain=twirl-2-13` flag to your `.bazelrc` file.
+Projects still on Play 2.7 want `--@rules_twirl//twirl-toolchain=twirl-2-13-play-2-7`, which runs
+the Play 2.7 era `com.typesafe.play` Twirl compiler against `twirl-api` 1.x.
 
 If you want to use a custom Twirl compiler, you can set up a custom toolchain like so:
 
@@ -98,7 +100,8 @@ scala_binary(
 To override the default Twirl compiler for a single target, you can change the
 `twirl_toolchain_name` attribute on the `twirl_routes` target. That attribute can be set to the name
 of any `twirl_toolchain` registered with `twirl_register_toolchains` (and created using
-`create_twirl_toolchain`). By default `twirl-3` and `twirl-2-13` are valid values.
+`create_twirl_toolchain`). By default `twirl-3`, `twirl-2-13` and `twirl-2-13-play-2-7` are valid
+values.
 
 For example:
 
