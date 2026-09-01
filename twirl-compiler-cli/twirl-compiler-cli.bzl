@@ -72,13 +72,11 @@ def generate_play_2_7_twirl_compiler_targets():
         visibility = ["//visibility:public"],
         deps_used_whitelist = [
             scala_library_target,
-            "{}//:com_google_protobuf_protobuf_java".format(repository),
         ],
         deps = [
             scala_library_target,
             "{}//:com_github_scopt_scopt_2_13".format(repository),
             "{}//:com_typesafe_play_twirl_compiler_2_13".format(repository),
-            "{}//:com_google_protobuf_protobuf_java".format(repository),
             "@rules_scala_annex//src/main/scala/higherkindness/rules_scala/common/error",
             "@rules_scala_annex//src/main/scala/higherkindness/rules_scala/common/interrupt",
             "@rules_scala_annex//src/main/scala/higherkindness/rules_scala/common/sandbox",
