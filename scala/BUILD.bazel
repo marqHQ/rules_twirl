@@ -2,6 +2,7 @@ load(
     "@rules_scala_annex//rules:register_toolchain.bzl",
     "register_zinc_toolchain",
 )
+load("@rules_scala_annex//rules/scalafmt:register_toolchain.bzl", "register_scalafmt_toolchain")
 load("//:versions.bzl", "scala_2_13_version", "scala_3_version")
 
 # Scala 3
@@ -50,4 +51,23 @@ register_zinc_toolchain(
     runtime_classpath = runtime_classpath_2_13,
     version = scala_2_13_version,
     visibility = ["//visibility:public"],
+)
+
+# Builds the Play 2.7 compiler CLI. The prefix keeps a consumer's own 2.13 toolchain, whose
+# Scala library may be older than the compiler the CLI runs, from being selected for it.
+register_zinc_toolchain(
+    name = "zinc_2_13_play_2_7_cli",
+    compiler_bridge = "@twirl_compiler_cli_2_13//:org_scala_sbt_compiler_bridge_2_13",
+    compiler_classpath = compiler_classpath_2_13,
+    global_scalacopts = ["-Ytasty-reader"],
+    prefix = "play-2-7-cli",
+    runtime_classpath = runtime_classpath_2_13,
+    version = scala_2_13_version,
+    visibility = ["//visibility:public"],
+)
+
+register_scalafmt_toolchain(
+    name = "scalafmt_play_2_7_cli",
+    config = "scalafmt-play-2-7-cli.conf",
+    scala_versions = ["play-2-7-cli_" + scala_2_13_version],
 )

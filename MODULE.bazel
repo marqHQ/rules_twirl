@@ -26,6 +26,8 @@ bazel_dep(name = "stardoc", version = "0.8.0", dev_dependency = True)
 register_toolchains(
     "//:repository_default_toolchain_21_definition",
     "//scala:zinc_2_13",
+    "//scala:zinc_2_13_play_2_7_cli",
+    "//scala:scalafmt_play_2_7_cli",
     "//scala:zinc_3",
     "//twirl-toolchain:twirl-2-13",
     "//twirl-toolchain:twirl-2-13-play-2-7-prefixed",

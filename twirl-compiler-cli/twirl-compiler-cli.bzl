@@ -93,7 +93,7 @@ def generate_play_2_7_twirl_compiler_targets():
             "@rules_scala_annex//src/main/scala/higherkindness/rules_scala/common/sandbox",
             "@rules_scala_annex//src/main/scala/higherkindness/rules_scala/common/worker",
         ],
-        scala_version = "2.13",
+        scala_version = "play-2-7-cli_2.13",
     )
 
     java_binary(
